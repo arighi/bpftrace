@@ -828,3 +828,21 @@ int main(int argc, char *argv[])
 
   return 0;
 }
+
+/* Workaround SIGSEGV with libllvm-11 */
+extern "C" {
+int __aeabi_atexit(void *, void (*)(void *), void *)
+{
+  return 1;
+}
+
+int __cxa_atexit(void (*)(void *), void *, void *)
+{
+  return 1;
+}
+
+void __cxa_finalize(void *)
+{
+}
+
+} // end of extern "C"
